@@ -26,6 +26,11 @@ describe "AuthenticationPages" do
 			end
 		end
 
+    describe "before sign in" do
+      it { should_not have_link 'Profile' }
+      it { should_not have_link 'Setting' }
+    end
+    
 		describe "with valid information" do
 			let(:user) { FactoryGirl.create(:user) }
 			before {
@@ -53,6 +58,35 @@ describe "AuthenticationPages" do
       let(:user) { FactoryGirl.create(:user) }
 
       describe "when attempting to visit a protected page" do
+        before do
+          visit edit_user_path(user)
+          fill_in "Email",    with: user.email
+          fill_in "Password", with: user.password
+          click_button "Sign in"
+        end
+
+        describe "after signing in" do
+          it "should render the desired protected page" do
+              page.should have_selector('title', text: 'Edit user')
+          end
+
+          describe "when signing in again" do
+            before do
+              delete signout_path
+              visit signin_path
+              fill_in "Email",    with: user.email
+              fill_in "Password", with: user.password
+              click_button "Sign in"
+            end
+
+            it "should render the default (profile) page" do
+              page.should have_selector('title', text: user.name) 
+            end
+          end
+        end
+      end
+
+      describe "when attempting to visit a protected page" do
       	before do
       		visit edit_user_path user
       		fill_in 'Email', with:user.email
@@ -63,7 +97,6 @@ describe "AuthenticationPages" do
       	describe "after signing in" do
       		it { should have_title "Edit user" }
       	end
-
       end
 
       describe "in the Users controller" do
@@ -99,6 +132,18 @@ describe "AuthenticationPages" do
         before { put user_path(wrong_user) }
         specify { response.should redirect_to(root_path) }
       end
+    end
+
+    describe "as admin user" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before { sign_in admin }
+
+      describe "should not be able to own" do
+        before { delete user_path(admin) }
+        specify { response.should redirect_to(root_path)} #仮でルートにリダイレクト
+
+      end
+
     end
 
     describe "as non-admin user" do
