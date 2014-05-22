@@ -38,6 +38,10 @@ describe "MicropostPages" do
       end
     end
   end
+
+  describe "reply" do
+  	
+  end
 end
 		
 		

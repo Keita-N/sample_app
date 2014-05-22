@@ -154,6 +154,7 @@ describe "User pages" do
       before do
         fill_in "Name",         with: "Example User"
         fill_in "Email",        with: "user@example.com"
+        fill_in "Login Name",   with: "ExampleUser"
         fill_in "Password",     with: "foobar"
         fill_in "Confirm Password", with: "foobar"
       end
@@ -198,6 +199,7 @@ describe "User pages" do
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
+        fill_in "Login Name",       with: new_name.gsub(" ", "")
         fill_in "Password",         with: user.password
         fill_in "Confirm Password", with: user.password
         click_button "Save changes"

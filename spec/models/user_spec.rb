@@ -14,7 +14,7 @@ require 'spec_helper'
 describe User do
 
   before { @user = User.new(name: "Example User", email: "user@example.com", 
-  	password: "foobar", password_confirmation: "foobar") }
+  	password: "foobar", password_confirmation: "foobar", login_name:"ExampleUser") }
 
   subject { @user }
 
@@ -35,6 +35,7 @@ describe User do
   it { should respond_to(:unfollow!) }
   it { should respond_to(:reverse_relationships) }
   it { should respond_to(:followers) }
+  it { should respond_to(:login_name) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -50,11 +51,6 @@ describe User do
 
   describe "when name is not present" do
   	before { @user.name = '' }
-  	it { should_not be_valid }
-  end
-
-  describe "whoen email is not present" do
-  	before { @user.email = '' }
   	it { should_not be_valid }
   end
 
@@ -101,6 +97,31 @@ describe User do
       @user.email = mixed_case_email
       @user.save
       @user.reload.email.should == mixed_case_email.downcase
+    end
+  end
+
+  describe "when login_name is not present" do
+    before { @user.login_name = '' }
+    it {should_not be_valid()}
+  end
+
+  describe "when login_name is already taken" do
+    before do
+      user_with_same_login_name = @user.dup
+      user_with_same_login_name.login_name = @user.login_name.upcase
+      user_with_same_login_name.save
+    end
+
+    it {should_not be_valid}
+  end
+
+  describe "when login_name with mixed case" do
+    let(:mixed_case_login_name) {'ExamPleUSer'}
+
+    it "should be saved as all lower case" do
+      @user.login_name = mixed_case_login_name
+      @user.save
+      @user.reload.login_name == mixed_case_login_name.downcase
     end
   end
 
@@ -219,4 +240,5 @@ describe User do
       its(:followed_users) { should_not include(other_user)}
     end
   end
+
 end
