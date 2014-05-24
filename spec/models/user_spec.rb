@@ -216,6 +216,30 @@ describe User do
         end
       end
     end
+
+    describe "reply from unfollowing user" do
+      let(:unfollowed_user) { FactoryGirl.create(:user) }
+      let(:follower) { FactoryGirl.create(:user) }
+      let!(:reply_post) do
+        unfollowed_user.microposts.create!(content: "@#{@user.login_name} Hello")
+      end
+
+      before do
+        follower.follow!(unfollowed_user)
+      end 
+
+      it "shoule have user_id in in_reply_to_id" do
+        Micropost.find(reply_post.id).reply_to should == @user
+      end
+      its(:feed) { should include(reply_post) }
+
+      it "should not be shown in follower's feed" do
+        follower.feed.should_not include reply_post
+        # expect do 
+        #   follower.feed
+        # end.not_to include reply_post
+      end
+    end
   end
 
   describe "following" do

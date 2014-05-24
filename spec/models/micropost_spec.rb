@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Micropost do
 
   let(:user) { FactoryGirl.create(:user) }
+  let(:other_user) { FactoryGirl.create(:user) }
   before do
   	@micropost = user.microposts.build(content:"Lorem ipsum")
   end
@@ -12,6 +13,7 @@ describe Micropost do
   it { should respond_to(:content) }
   it { should respond_to(:user_id) }
   it { should respond_to(:user) }
+  it { should respond_to(:in_reply_to) }
   its(:user) { should == user }
 
   it { should be_valid }
@@ -27,6 +29,12 @@ describe Micropost do
   			Micropost.new(user_id:user.id)
   		end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
   	end
+
+    it "should not allow access to in_reply_to_id" do
+      expect do
+        Micropost.new(in_reply_to_id:user.id)
+      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
   end
 
   describe "with blank content" do
