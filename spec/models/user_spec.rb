@@ -235,9 +235,6 @@ describe User do
 
       it "should not be shown in follower's feed" do
         follower.feed.should_not include reply_post
-        # expect do 
-        #   follower.feed
-        # end.not_to include reply_post
       end
     end
   end

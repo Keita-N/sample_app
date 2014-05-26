@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(:version => 20140524122959) do
     t.integer  "user_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
-    t.integer  "in_reply_to_id"
     t.integer  "reply_to_id"
   end
 
