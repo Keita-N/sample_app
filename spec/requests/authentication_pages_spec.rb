@@ -11,6 +11,7 @@ describe "AuthenticationPages" do
     it { should have_title('Sign in') }
     it { should have_field('email')}
     it { should have_field('password') }
+    it { should have_link("forgotten password?") }
     it { should have_unchecked_field('remember_me')}
     it { should have_button('Sign in')}
 	end
