@@ -35,5 +35,7 @@ SampleApp::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = false
 
+  config.action_mailer.default_url_options = { :host => "localhost:3000" }
+
   I18n.enforce_available_locales = false
 end
