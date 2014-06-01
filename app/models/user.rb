@@ -26,9 +26,18 @@ class User < ActiveRecord::Base
   validates :name, presence: true, length: {maximum: 50}
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-  validates :password, length: {minimum: 6}
-  validates :password_confirmation, presence:true
+  validates :password, length: {minimum: 6}, on: :registration
+  validates :password_confirmation, presence:true, on: :registration
   validates :login_name, presence:true, uniqueness: { case_sensitive: false}
+
+  state_machine :state, initial: :standby do
+    state :standby
+    state :active
+
+    event :change_state do
+      transition to: :active, from: :standby
+    end
+  end
 
   def feed
     Micropost.from_users_followed_by(self)
@@ -52,11 +61,15 @@ class User < ActiveRecord::Base
     save!(validate:false)
     UserMailer.password_reset(self).deliver
   end
+
+  def send_activate_account
+    UserMailer.activate_account(self).deliver
+  end
   
   private
 
 	  def create_remember_token
-	  	self.remember_token = SecureRandom.urlsafe_base64
+      generate_token(:remember_token)
 	  end
 
     def generate_token(column)

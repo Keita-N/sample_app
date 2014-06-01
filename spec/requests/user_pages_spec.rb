@@ -168,9 +168,27 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by_email('user@example.com') }
 
-        it { should have_title(user.name) }
-        it { should have_success_message 'Welcome' }
-        it { should have_link('Sign out')}
+        it { should_not have_title '| Home' }
+        it { should have_link('Sign in') }
+        it { should have_content "Access to the URL in an activation mail."}
+
+        it "expected user's state is standby" do
+          user.state.should == "standby"
+        end
+
+        describe "access to the activate URL" do
+          before do
+            user.reload
+            visit activate_user_path(user.remember_token)
+            user.reload
+          end
+            it "expect user's state is active" do
+              user.state.should == "active"
+            end
+            it { should have_title(user.name) }
+            it { should have_success_message 'Welcome' }
+            it { should have_link('Sign out')}
+        end
       end
     end
   end

@@ -36,6 +36,7 @@ describe User do
   it { should respond_to(:reverse_relationships) }
   it { should respond_to(:followers) }
   it { should respond_to(:login_name) }
+  it { should respond_to(:state) }
 
   it { should be_valid }
   it { should_not be_admin }
@@ -127,7 +128,7 @@ describe User do
 
   describe "when password is not present" do
   	before { @user.password = @user.password_confirmation = " " }
-  	it { should_not be_valid }
+  	it { should_not be_valid(:registration) }
   end
 
   describe "when password doesn't match confirmation" do
@@ -137,7 +138,7 @@ describe User do
 
   describe "when password confirmation is nil" do
   	before { @user.password_confirmation = nil }
-  	it { should_not be_valid }
+  	it { should_not be_valid(:registration) }
   end
 
   describe "return value of authenticate method" do
@@ -158,7 +159,7 @@ describe User do
 
   describe "with a password that's too short" do
     before { @user.password = @user.password_confirmation = "a" * 5 }
-    it { should be_invalid }
+    it { should be_invalid(:registration) }
   end
 
   describe "remember token" do
