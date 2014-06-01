@@ -1,12 +1,13 @@
 <% provide(:title, 'Reset Password') %>
 <h1>Reset Password</h1>
-<% flash.each do |key, value| %>
-<%= content_tag(:div, value, class:"alert alert-#{key}") %>
-<% end %>
-<%= form_tag password_resets_path, :method => :post do |f| %>
-    <div class="field">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email] %>
-  </div>
-  <div class="actions"><%= submit_tag "Reset Password" %></div>
-<% end %>
+<div class="row">
+	<div class="span6 offset3">
+			<%= form_tag password_resets_path, :method => :post do |f| %>
+	    <div class="field">
+	    <%= label_tag :email %>
+	    <%= text_field_tag :email, params[:email] %>
+	  	</div>
+		  <%= submit_tag "Reset Password", class: "btn btn-large btn-primary" %>
+		  <% end %>	
+	</div>
+</div>
