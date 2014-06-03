@@ -1,7 +1,7 @@
 class Lesson < ActiveRecord::Base
   attr_accessible :ending, :name, :start
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
   validates :start, presence: true
   validates :ending, presence: true
   validate :start_must_be_before_ending

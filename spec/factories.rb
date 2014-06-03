@@ -23,8 +23,8 @@ FactoryGirl.define do
   end
 
   factory :lesson do
-    name "Guitar for biginners"
-    start Time.now
-    ending Time.now + 2.hours
+    sequence(:name) { |n| "Lesson #{n}" }
+    sequence(:start) { |n| Time.now + n.hours }
+    sequence(:ending) { |n| Time.now + (n + 2).hours }
   end
 end

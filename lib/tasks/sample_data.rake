@@ -4,6 +4,7 @@ namespace :db do
     make_users
     make_microposts
     make_relationships
+    make_lessons
   end
 end 
 
@@ -44,4 +45,16 @@ def make_relationships
   followers = users[3..40]
   followed_users.each { |followed| user.follow!(followed) }
   followers.each { |follower| follower.follow!(user) }
+end
+
+def make_lessons
+  30.times do |n|
+    name = "Lesson-#{n}"
+    start = Time.now + n.hours
+    ending = start + 2.hours
+    Lesson.create(
+      name:name,
+      start: start,
+      ending: ending)
+  end
 end

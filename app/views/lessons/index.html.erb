@@ -1,0 +1,10 @@
+<%= provide :title, "All Lessons" %>
+<h1>All Lessons</h1>
+
+<%= will_paginate %>
+
+<ul class='lessons'>
+  <%= render @lessons %>
+</ul>
+
+<%= will_paginate %>

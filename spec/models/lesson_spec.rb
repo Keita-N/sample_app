@@ -32,4 +32,13 @@ describe Lesson do
 		}
 		it { should_not be_valid }
 	end
+
+	describe "when name is already taken" do
+		before {
+			same_name_lesson = @lesson.dup
+			same_name_lesson.save
+		}
+
+		it { should_not be_valid }
+	end
 end
