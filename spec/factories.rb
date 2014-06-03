@@ -21,4 +21,10 @@ FactoryGirl.define do
     content "Lorem ipsum"
     user
   end
+
+  factory :lesson do
+    name "Guitar for biginners"
+    start Time.now
+    ending Time.now + 2.hours
+  end
 end

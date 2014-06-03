@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140601100806) do
+ActiveRecord::Schema.define(:version => 20140603120950) do
+
+  create_table "lessons", :force => true do |t|
+    t.string   "name"
+    t.datetime "start"
+    t.datetime "ending"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "microposts", :force => true do |t|
     t.string   "content"
