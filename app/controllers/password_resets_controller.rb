@@ -21,7 +21,7 @@ class PasswordResetsController < ApplicationController
     end
 
     @user.attributes = params[:user]
-    if @user.save(context: :registration)
+    if @user.save(context: :registration) && @user.active?
   		flash[:notice] = "Password has been reset."
   		sign_in @user
 			redirect_back_or @user

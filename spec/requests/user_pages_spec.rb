@@ -229,6 +229,7 @@ describe "User pages" do
       it { should have_link('Sign out', href: signout_path) }
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
+      specify { user.reload.state == "active" }
     end
   end
 

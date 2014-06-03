@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 
 	def create
     @user = User.new(params[:user])
-    if @user.save()
+    if @user.save
       @user.send_activate_account
       redirect_to root_path, notice:"Access to the URL in an activation mail."
     else
