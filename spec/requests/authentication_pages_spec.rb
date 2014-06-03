@@ -53,8 +53,16 @@ describe "AuthenticationPages" do
 				before { click_link 'Sign out'}
 				it { should have_link('Sign in')}
 			end
-
 		end
+
+    describe "by standby user" do
+      let(:user) { FactoryGirl.create(:user, state:"standby") }
+      before { sign_in(user) }
+
+      # アカウントがアクティブ化されてない場合のリダイレクト先はHomeか？？？
+      it { should have_title('Sign in') }
+      it { should have_error_message('Invalid') }
+    end
 	end
 
 	describe "authorization" do

@@ -12,7 +12,8 @@ def make_users
               email: "example@railstutorial.jp",
               password: "foobar",
               password_confirmation: "foobar",
-              login_name: "ExampleUser")
+              login_name: "ExampleUser",
+              state: "active")
   admin.toggle!(:admin)
   99.times do |n|
     name = Faker::Name.name
@@ -23,7 +24,8 @@ def make_users
               email: email,
               password: password,
               password_confirmation: password,
-              login_name: login_name)
+              login_name: login_name,
+              state: "active")
   end
 end
 
