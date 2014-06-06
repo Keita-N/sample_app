@@ -1,8 +1,17 @@
 <li>
-  <%= link_to lesson.name, lesson %>
-  <p>Start:</p>
-  <p><%= lesson.start %></p>
-  <p>End:</p>
-  <p><%= lesson.ending %></p>
+  <%= link_to lesson.name, lesson, class:"name" %>
+    <div class="edit">
+  <% if current_user.admin? %>    
+  <%= link_to 'edit', edit_lesson_path(lesson) %>
+   | 
+  <%= link_to 'delete', lesson, method: :delete,
+      data: {confirm: "You sure?"} %>
+  <% end %>
+  </div>
+
+  <p>Start:<%= lesson.start %></p>
+  <p>End:<%= lesson.ending %></p>
   
+
+
 </li>

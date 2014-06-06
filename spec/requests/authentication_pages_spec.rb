@@ -196,12 +196,18 @@ describe "AuthenticationPages" do
     describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:non_admin) { FactoryGirl.create(:user) }
+      let(:lesson) { FactoryGirl.create(:lesson) }
 
       before { sign_in non_admin }
 
       describe "submitting a DELETE request to the Users#destroy action" do
         before { delete user_path(user) }
         specify { response.should redirect_to(root_path) }        
+      end
+
+      describe "submitting a DELETE request to the Lesson#destroy action" do
+        before { delete lesson_path(lesson) }
+        specify { response.should redirect_to(root_path) }
       end
     end
   end

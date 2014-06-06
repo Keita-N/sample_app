@@ -1,6 +1,9 @@
 <%= provide :title, "All Lessons" %>
 <h1>All Lessons</h1>
 
+<% if current_user.admin? %>
+  <%= link_to "New Lesson", new_lesson_path, class: "btn btn-large btn-primary" %>
+<% end %>
 <%= will_paginate %>
 
 <ul class='lessons'>
