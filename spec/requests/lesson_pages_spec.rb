@@ -131,9 +131,31 @@ describe "Lesson Pages" do
 		before do
 			sign_in admin
 			visit lessons_path
-			click_button "New Lesson"
+			click_link "New Lesson"
 		end
-		
-	end
 
+		it { should have_title 'New Lesson' }
+
+		describe "with valid information" do
+			before do
+				fill_in 'Name', with:'New Lesson'
+				select '13', from:"lesson_start_4i"
+				select '15', from:"lesson_ending_4i"
+			end
+
+			it "should create a new lesson" do
+				expect{ click_button 'Save' }.to change(Lesson, :count).by(1)
+			end
+
+			describe "after saving new lesson" do
+				before { click_button 'Save' }
+				it { should have_content 'Lesson created' }			
+			end
+		end
+
+		describe "with invalid information" do
+			before { click_button 'Save' }
+			it { should have_content 'error' }
+		end
+	end
 end

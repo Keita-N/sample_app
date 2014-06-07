@@ -1,9 +1,23 @@
 class LessonsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only:[:destroy]
+  before_filter :admin_user, only:[:destroy, :create, :edit]
 
 	def index
 		@lessons = Lesson.paginate(page: params[:page])
+	end
+
+	def create
+		@lesson = Lesson.new(params[:lesson])
+		if @lesson.save
+			flash[:success] = 'Lesson created'
+			redirect_to lessons_url
+		else
+			render 'new'
+		end
+	end
+
+	def new
+		@lesson = Lesson.new
 	end
 
 	def show
@@ -28,6 +42,6 @@ class LessonsController < ApplicationController
 		lesson = Lesson.find(params[:id])
 		lesson.destroy
 		flash[:success] = "Lesson destroyed."
-		redirect_to "index"
+		redirect_to lessons_url
 	end
 end
