@@ -3,10 +3,12 @@ require 'spec_helper'
 describe "Lesson Pages" do
 
 	let(:user) { FactoryGirl.create(:user) }
+	let(:admin) { FactoryGirl.create(:admin) }
+	let(:lesson) { FactoryGirl.create(:lesson) }
+	
 	subject { page }
 
 	describe "index" do
-		let(:lesson) { FactoryGirl.create(:lesson) }
 
 		before do
 			sign_in user
@@ -34,7 +36,6 @@ describe "Lesson Pages" do
 	end
 
 	describe "index when admin user" do
-		let(:admin) { FactoryGirl.create(:admin) }
 		before do
 			FactoryGirl.create(:lesson)
 			sign_in admin
@@ -52,7 +53,6 @@ describe "Lesson Pages" do
 
 
 	describe "show" do
-		let(:lesson) { FactoryGirl.create(:lesson) }
 		before do
 			sign_in user
 			visit lesson_path(lesson)
@@ -63,6 +63,76 @@ describe "Lesson Pages" do
 	end
 
 	describe "edit" do
+		before do
+			sign_in admin
+			visit edit_lesson_path lesson
+		end
+
+		describe "page" do
+			it { should have_title "Edit Lesson"}
+			it { should have_selector "h1", text:"Update lesson" }
+		end
+
+		describe "with invalid information" do
+
+			describe "when Name is null" do
+				before do
+					fill_in "Name", with:""
+					click_button "Save changes"
+				end
+  	    it { should have_content('error') }
+			end
+
+			describe "when start is after ending" do
+				before do
+					select "2013", from:"lesson_start_1i"
+					select "2012", from:"lesson_ending_1i"
+					click_button "Save changes"
+				end
+				it { should have_content 'error' }
+			end
+    end
+
+    describe "with valid information" do
+      let(:new_name)  { "New Lesson" }
+      let(:start) { Time.parse('2014-7-1 15:30') }
+      let(:ending) { Time.parse('2014-7-1 17:30') }
+      before do
+        fill_in "Name",             with: new_name
+
+        select start.year.to_s,		from:"lesson_start_1i"
+        within("#lesson_start_2i") do
+        	find("option[value='#{start.mon}']").click
+        end
+        select start.day.to_s,		from:"lesson_start_3i"
+        select start.hour.to_s,		from:"lesson_start_4i"
+        select start.min.to_s,		from:"lesson_start_5i"
+
+        select ending.year.to_s,	from:"lesson_ending_1i"
+        within "#lesson_ending_2i" do
+        	find("option[value='#{ending.mon}']").click
+        end
+        select ending.day.to_s,		from:"lesson_ending_3i"
+        select ending.hour.to_s,	from:"lesson_ending_4i"
+        select ending.min.to_s,		from:"lesson_ending_5i"
+        click_button "Save changes"
+      end
+
+      it { should have_title new_name }
+      it { should have_selector('div.alert.alert-success') }
+      it { should have_link('Sign out', href: signout_path) }
+      specify { lesson.reload.name.should  == new_name }
+      specify { lesson.start == start }
+      specify { lesson.ending == ending }
+    end
+	end
+
+	describe "new" do
+		before do
+			sign_in admin
+			visit lessons_path
+			click_button "New Lesson"
+		end
 		
 	end
 

@@ -193,6 +193,15 @@ input, textarea, select, .uneditable-input {
   @include box_sizing;
 }
 
+.datetime_select {
+  margin-bottom: 15px;
+  select {
+    width: 80px;
+    margin-bottom: 0px;
+  }
+
+}
+
 input {
   height: auto !important;
 }

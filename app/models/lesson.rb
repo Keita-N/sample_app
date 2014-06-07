@@ -8,7 +8,7 @@ class Lesson < ActiveRecord::Base
 
   def start_must_be_before_ending
   	if self.start && self.ending
-	  	errors.add(:ending, "mest be after start time") unless self.start < self.ending
+	  	errors.add(:ending, "must be after start time") unless self.start < self.ending
 	  end
   end
 end
