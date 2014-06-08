@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140603120950) do
+ActiveRecord::Schema.define(:version => 20140608021114) do
 
   create_table "lessons", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,17 @@ ActiveRecord::Schema.define(:version => 20140603120950) do
   add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
   add_index "relationships", ["follower_id", "followed_id"], :name => "index_relationships_on_follower_id_and_followed_id", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
+  create_table "reservations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "lesson_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "reservations", ["lesson_id"], :name => "index_reservations_on_lesson_id"
+  add_index "reservations", ["user_id", "lesson_id"], :name => "index_reservations_on_user_id_and_lesson_id", :unique => true
+  add_index "reservations", ["user_id"], :name => "index_reservations_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
