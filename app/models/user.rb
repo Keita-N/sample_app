@@ -67,6 +67,18 @@ class User < ActiveRecord::Base
   def send_activate_account
     UserMailer.activate_account(self).deliver
   end
+
+  def reserve!(lesson)
+    reservations.create!(lesson_id:lesson.id)
+  end
+
+  def reserving?(lesson)
+    reservations.find_by_lesson_id(lesson.id)
+  end
+
+  def cancel!(lesson)
+    reservations.find_by_lesson_id(lesson.id).destroy
+  end
   
   private
 

@@ -1,5 +1,11 @@
 require 'spec_helper'
 
+shared_examples_for "show page" do
+	it { should have_title lesson.name }
+	it { should have_selector 'h1', text:lesson.name }
+	it { should have_selector 'h2', text:"Time: #{lesson.start} ~ #{lesson.ending}"}
+end
+
 describe "Lesson Pages" do
 
 	let(:user) { FactoryGirl.create(:user) }
@@ -57,9 +63,7 @@ describe "Lesson Pages" do
 			sign_in user
 			visit lesson_path(lesson)
 		end
-		it { should have_title lesson.name }
-		it { should have_selector 'h1', text:lesson.name }
-		it { should have_selector 'h2', text:"Time: #{lesson.start} ~ #{lesson.ending}"}
+		it_should_behave_like "show page"
 	end
 
 	describe "edit" do
@@ -157,5 +161,32 @@ describe "Lesson Pages" do
 			before { click_button 'Save' }
 			it { should have_content 'error' }
 		end
+	end
+
+	describe "reservation/cancel" do
+		before do
+			sign_in user
+			visit lesson_path lesson
+		end
+		
+		describe "reserve" do
+			before { click_button "Reserve" }
+
+			it_should_behave_like "show page"
+			it { should have_button "Cancel" }
+		end
+
+		describe "cancel" do
+			before do
+				user.reserve!(lesson)
+				visit lesson_path lesson
+				click_button "Cancel"
+			end
+
+			it_should_behave_like "show page"
+			it { should have_button "Reserve" }
+
+		end
+
 	end
 end

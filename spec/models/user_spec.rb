@@ -263,4 +263,16 @@ describe User do
     end
   end
 
+  describe "reserve lesson" do
+    let(:lesson) { FactoryGirl.create(:lesson) }
+    before do
+      @user.save
+      @user.reserve!(lesson)
+    end
+
+    it { should be_reserving(lesson) }
+    
+  end
+
+
 end

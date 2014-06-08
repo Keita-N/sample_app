@@ -1,3 +1,18 @@
 <%= provide(:title, @lesson.name) %>
-<h1><%= @lesson.name %></h1>
-<h2>Time: <%= "#{@lesson.start} ~ #{@lesson.ending}" %></h2>
+<div class="row">
+  <div class="span6 offset3">
+  <h1><%= @lesson.name %></h1>
+  <h2>Time: <%= "#{@lesson.start} ~ #{@lesson.ending}" %></h2>
+
+  <% if current_user.reserving?(@lesson) %>
+    <%= form_for(current_user.reservations.find_by_lesson_id(@lesson.id), html:{method: :delete}) do |f| %>
+      <%= f.submit "Cancel", class: "btn btn-large" %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_user.reservations.build(lesson_id: @lesson.id)) do |f| %>
+      <div><%= f.hidden_field :lesson_id %></div>
+      <%= f.submit "Reserve", class: "btn btn-large btn-primary" %>
+    <% end %>
+  <% end %>
+  </div>
+</div>

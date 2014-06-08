@@ -10,6 +10,7 @@ SampleApp::Application.routes.draw do
   resources :relationships, only: [:create, :destroy]
   resources :password_resets
   resources :lessons
+  resources :reservations, only: [:create, :destroy]
 
   root to: 'static_pages#home'
 
