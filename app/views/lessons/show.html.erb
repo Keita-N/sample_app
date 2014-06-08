@@ -12,7 +12,7 @@
     <%= form_for(current_user.reservations.build(lesson_id: @lesson.id)) do |f| %>
       <div><%= f.hidden_field :lesson_id %></div>
       <%= f.label "Part" %>
-         <% @band_part_types.each do |t| %>
+         <% BandPartType.each do |t| %>
          <div>
           <%= t.t %>
           <%= radio_button 'reservation', 'part_type', t, {checked: t == BandPartType::GUITAR} %>
