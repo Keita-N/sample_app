@@ -68,8 +68,8 @@ class User < ActiveRecord::Base
     UserMailer.activate_account(self).deliver
   end
 
-  def reserve!(lesson)
-    reservations.create!(lesson_id:lesson.id)
+  def reserve!(lesson, part_type)
+    reservations.create!(lesson_id:lesson.id, part_type:part_type)
   end
 
   def reserving?(lesson)

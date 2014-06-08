@@ -172,13 +172,16 @@ describe "Lesson Pages" do
 		describe "reserve" do
 			before { click_button "Reserve" }
 
+# パート選択
+			# it { should have}
+
 			it_should_behave_like "show page"
 			it { should have_button "Cancel" }
 		end
 
 		describe "cancel" do
 			before do
-				user.reserve!(lesson)
+				user.reserve!(lesson, BandPartType::BASS)
 				visit lesson_path lesson
 				click_button "Cancel"
 			end

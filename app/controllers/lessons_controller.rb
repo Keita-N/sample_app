@@ -22,6 +22,7 @@ class LessonsController < ApplicationController
 
 	def show
 		@lesson = Lesson.find(params[:id])
+		@band_part_types = BandPartType
 	end
 
 	def edit

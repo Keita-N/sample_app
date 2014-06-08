@@ -6,4 +6,10 @@ en:
     attributes:
       user:
         password_digest: "Password"
-
+  inum:
+    band_part_type:
+      guitar: "Guitar"
+      bass: "Bass"
+      drums: "Drums"
+      key: "Keyboard"
+      sax: "Sax"

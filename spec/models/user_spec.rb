@@ -267,7 +267,7 @@ describe User do
     let(:lesson) { FactoryGirl.create(:lesson) }
     before do
       @user.save
-      @user.reserve!(lesson)
+      @user.reserve!(lesson, BandPartType::BASS)
     end
 
     it { should be_reserving(lesson) }

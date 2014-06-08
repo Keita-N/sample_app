@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
 
 	def create
 		@lesson = Lesson.find(params[:reservation][:lesson_id])
-		current_user.reserve!(@lesson)
+		current_user.reserve!(@lesson, params[:reservation][:part_type])
 		redirect_to @lesson
 	end
 
