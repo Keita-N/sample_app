@@ -19,9 +19,14 @@ describe "Static pages" do
 
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
+      let(:lesson1) { FactoryGirl.create(:lesson) }
+      let(:lesson2) { FactoryGirl.create(:lesson) }
+
       before do
         FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
         FactoryGirl.create(:micropost, user: user, content: "Dolor sit amet")
+        FactoryGirl.create(:reservation, user: user, lesson:lesson1, part_type:BandPartType::BASS)
+        FactoryGirl.create(:reservation, user: user, lesson:lesson2, part_type:BandPartType::DRUMS)
         sign_in user
         visit root_path
       end
@@ -41,6 +46,20 @@ describe "Static pages" do
 
         it { should have_link("0 following", href: following_user_path(user)) }
         it { should have_link("1 follower", href: followers_user_path(user)) }
+      end
+
+      describe "should render the user's schedule" do
+        it "lesson name" do
+          user.reservations.each do |item|
+            page.should have_selector("li##{item.id}", text:item.lesson.name)
+          end          
+        end
+
+        it "lesson part" do
+          user.reservations.each do |item|
+            page.should have_selector("li##{item.id}", text:item.part_type.t)
+          end
+        end
       end
     end
   end

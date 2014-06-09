@@ -15,7 +15,7 @@
          <% BandPartType.each do |t| %>
          <div>
           <%= t.t %>
-          <%= radio_button 'reservation', 'part_type', t, {checked: t == BandPartType::GUITAR} %>
+          <%= f.radio_button 'part_type', t, {checked: t == BandPartType::GUITAR} %>
          </div>
          <% end %>
       <%= f.submit "Reserve", class: "btn btn-large btn-primary" %>

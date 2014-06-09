@@ -4,7 +4,12 @@ describe "MicropostPages" do
 	subject { page }
 
 	let(:user) { FactoryGirl.create(:user) }
-	before { sign_in user }
+	let(:lesson) { FactoryGirl.create(:lesson) }
+
+	before do
+		FactoryGirl.create(:reservation, user:user, lesson:lesson, part_type:BandPartType::BASS)
+		sign_in user
+	end
 
 	describe "micropost creation" do
 		before { visit root_path }
@@ -16,6 +21,7 @@ describe "MicropostPages" do
 
 			describe "error messages" do
 				before { click_button "Post" }
+				it { should have_button "Post" }
 				it { should have_content("error") }
 			end
 		end

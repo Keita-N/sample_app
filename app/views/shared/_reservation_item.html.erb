@@ -1,0 +1,16 @@
+<li id="<%= reservation_item.id %>">
+  <span class='lesson'>
+    <div class="name">
+    <%= link_to reservation_item.lesson.name, reservation_item.lesson %>
+    </div>
+    <div class="time">
+    <%= reservation_item.lesson.start %>
+    </div>
+    <div class="time">
+    <%= reservation_item.lesson.ending %>
+    </div>
+    <div class="part_type">
+    <%= reservation_item.part_type.t %>    
+    </div>
+  </span>
+</li>

@@ -27,4 +27,10 @@ FactoryGirl.define do
     sequence(:start) { |n| Time.now + n.hours }
     sequence(:ending) { |n| Time.now + (n + 2).hours }
   end
+
+  factory :reservation do
+    user
+    lesson
+    part_type BandPartType::BASS
+  end
 end

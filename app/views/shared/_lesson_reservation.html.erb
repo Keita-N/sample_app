@@ -1,0 +1,6 @@
+<% if @reservation_items.any? %>
+  <ol class="reservations">
+    <%= render partial: 'shared/reservation_item', collection: @reservation_items %>
+  </ol>
+  <%= will_paginate @reservation_items %>
+<% end %>
